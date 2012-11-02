@@ -7,6 +7,7 @@
 int hour, minute, second;
 float totalTime;
 int percent = 100;
+bool startStop=true;
 QTimer timer, timer2;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -62,6 +63,17 @@ void MainWindow::on_pushButton_clicked()
     float step;
     step = totalTime/100;
     timer2.start(step);
+
+    if(startStop == true){
+        startStop = false;
+        ui->pushButton->setText("Stop");
+    }
+    else{
+        startStop = true;
+        ui->pushButton->setText("Start");
+        timer.stop();
+        timer2.stop();
+    }
 }
 
 //Thread part...
@@ -96,5 +108,9 @@ void MainWindow::on_pushButton_2_clicked()
     ui->spinBox_h->setValue(0);
     ui->spinBox_m->setValue(0);
     ui->spinBox_s->setValue(0);
+    startStop = true;
+    ui->pushButton->setText("Start");
+    timer.stop();
+    timer2.stop();
     percent = 100;
 }
