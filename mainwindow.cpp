@@ -7,7 +7,7 @@
 int hour, minute, second;
 float totalTime;
 int percent = 100;
-QTimer timer;
+QTimer timer, timer2;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,8 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(&timer, SIGNAL(timeout()), this, SLOT(reminder()));
 
-    onethread = new myThread(this);
-    connect(onethread, SIGNAL(progressValue(int)),
+//    onethread = new myThread(this);
+    connect(&timer2, SIGNAL(timeout()), this, SLOT(updateProgress()));
+    connect(this, SIGNAL(progressValue(int)),
             this, SLOT(showProgress(int)));
 }
 
@@ -54,32 +55,38 @@ void MainWindow::on_pushButton_clicked()
     timer.setSingleShot(true);
     timer.start(totalTime); // 1 Hz update rate
 
-    qDebug("totalTime is %d", totalTime);
+    qDebug("totalTime is %f", totalTime);
 
-    onethread->start(QThread::NormalPriority);
+//    onethread->start(QThread::NormalPriority);
+
+    timer2.start(1000);
 }
 
 //Thread part...
-myThread::myThread(QObject *parent)
-    : QThread(parent)
-{
+//myThread::myThread(QObject *parent)
+//    : QThread(parent)
+//{
 
-}
+//}
 
-void myThread::run()
-{
-    QTimer timer2;
-    connect(&timer2, SIGNAL(timeout()), this, SLOT(updateProgress()));
-    timer2.start(1000);
-    exec();
-}
+//void myThread::run()
+//{
+//    QTimer timer2;
+//    connect(&timer2, SIGNAL(timeout()), this, SLOT(updateProgress()));
+//    timer2.start(1000);
+//    exec();
+//}
 
-void myThread::updateProgress()
+void MainWindow::updateProgress()
 {
     int step;
 
     step = 100/(totalTime/1000);
     percent = percent - step;
+    if(percent <= 0)
+        percent = 0;
     emit progressValue(percent);
-    qDebug("currentValue is %d %f", percent, totalTime);
+    if(percent <= 0)    // run once more
+        timer2.stop();
+    qDebug("percent is %d", percent);
 }

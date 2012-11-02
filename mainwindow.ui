@@ -95,9 +95,9 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>37</x>
       <y>120</y>
-      <width>118</width>
+      <width>171</width>
       <height>23</height>
      </rect>
     </property>

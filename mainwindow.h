@@ -8,21 +8,6 @@ namespace Ui {
 class MainWindow;
 }
 
-class myThread : public QThread
-{
-  Q_OBJECT
-
-public:
-    myThread(QObject *parent = 0);
-    void run();
-
-public slots:
-    void updateProgress();
-
-signals:
-    void progressValue(int x);
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -33,6 +18,7 @@ public:
 
 public slots:
     void showProgress(int);
+    void updateProgress();
 
 private slots:
     void on_pushButton_clicked();
@@ -40,7 +26,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    myThread *onethread;
+//    myThread *onethread;
+
+signals:
+    void progressValue(int x);
 };
 
 #endif // MAINWINDOW_H
