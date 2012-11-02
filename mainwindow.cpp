@@ -6,7 +6,7 @@
 
 int hour, minute, second;
 float totalTime;
-float percent = 100;
+int percent = 100;
 QTimer timer, timer2;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -59,7 +59,9 @@ void MainWindow::on_pushButton_clicked()
 
 //    onethread->start(QThread::NormalPriority);
 
-    timer2.start(1000);
+    float step;
+    step = totalTime/100;
+    timer2.start(step);
 }
 
 //Thread part...
@@ -79,10 +81,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::updateProgress()
 {
-    float step;
-
-    step = 100/(totalTime/1000);
-    percent = percent - step;
+    percent = percent - 1;
     if(percent <= 0)
         percent = 0;
     emit progressValue(percent);
