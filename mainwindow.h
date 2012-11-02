@@ -2,10 +2,26 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
 
 namespace Ui {
 class MainWindow;
 }
+
+class myThread : public QThread
+{
+  Q_OBJECT
+
+public:
+    myThread(QObject *parent = 0);
+    void run();
+
+public slots:
+    void updateProgress();
+
+signals:
+    void progressValue(int x);
+};
 
 class MainWindow : public QMainWindow
 {
@@ -13,7 +29,10 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();    
+    ~MainWindow();
+
+public slots:
+    void showProgress(int);
 
 private slots:
     void on_pushButton_clicked();
@@ -21,6 +40,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    myThread *onethread;
 };
 
 #endif // MAINWINDOW_H
