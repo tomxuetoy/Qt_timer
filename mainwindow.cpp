@@ -6,7 +6,7 @@
 
 int hour, minute, second;
 float totalTime;
-int percent = 100;
+float percent = 100;
 QTimer timer, timer2;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,11 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    onethread = new myThread(this);
     connect(&timer2, SIGNAL(timeout()), this, SLOT(updateProgress()));
-    connect(this, SIGNAL(progressValue(int)),
-            this, SLOT(showProgress(int)));
+    connect(this, SIGNAL(progressValue(float)),
+            this, SLOT(showProgress(float)));
 }
 
-void MainWindow::showProgress(int Value)
+void MainWindow::showProgress(float Value)
 {
     ui->progressBar->setValue(Value);
 }
@@ -79,7 +79,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::updateProgress()
 {
-    int step;
+    float step;
 
     step = 100/(totalTime/1000);
     percent = percent - step;
@@ -89,4 +89,13 @@ void MainWindow::updateProgress()
     if(percent <= 0)    // run once more
         timer2.stop();
     qDebug("percent is %d", percent);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->progressBar->setValue(100);
+    ui->spinBox_h->setValue(0);
+    ui->spinBox_m->setValue(0);
+    ui->spinBox_s->setValue(0);
+    percent = 100;
 }

@@ -17,19 +17,21 @@ public:
     ~MainWindow();
 
 public slots:
-    void showProgress(int);
+    void showProgress(float);
     void updateProgress();
 
 private slots:
     void on_pushButton_clicked();
     void reminder();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
 //    myThread *onethread;
 
 signals:
-    void progressValue(int x);
+    void progressValue(float x);
 };
 
 #endif // MAINWINDOW_H
